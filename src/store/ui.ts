@@ -1,17 +1,23 @@
-import {create } from 'zustand'
+import { create } from 'zustand'
 
-type uiState  = {
-    selectedAppId:string | null
-    setSelectedAppId:(id:string)=> void
+type uiState = {
+    selectedAppId: string | null
+    setSelectedAppId: (id: string) => void
 
-    inspectorOpen: boolean;
-    setInspectorOpen: (open: boolean) => void;
+    inspectorOpen: boolean
+    setInspectorOpen: (open: boolean) => void
+
+    selectedNodeId: string | null
+    setSelectedNodeId: (id: string | null) => void
 }
 
-export const useuiStore =create<uiState>((set)=>({
-    selectedAppId:'app-1',
-    setSelectedAppId: (id)=> set({selectedAppId:id}),   
+export const useuiStore = create<uiState>((set) => ({
+    selectedAppId: 'app-1',
+    setSelectedAppId: (id) => set({ selectedAppId: id }),
 
     inspectorOpen: false,
     setInspectorOpen: (open) => set({ inspectorOpen: open }),
+
+    selectedNodeId: null,
+    setSelectedNodeId: (id) => set({ selectedNodeId: id }),
 }))

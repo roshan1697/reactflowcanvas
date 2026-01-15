@@ -1,6 +1,6 @@
 
 import AppShell from './layout/appshell'
-import Flow from './components/flow'
+import Flow from './feature/flow'
 
 function App() {
 
