@@ -3,50 +3,49 @@ import { ReactFlow, applyNodeChanges, applyEdgeChanges, addEdge, MiniMap, Backgr
 import type { Connection, EdgeChange, NodeChange, Node, Edge } from '@xyflow/react';
 import '@xyflow/react/dist/style.css'
 import { useuiStore } from '@/store/ui';
+import { useGraphStore } from '@/store/graph';
 
 
 
 const Flow = () => {
-     const setSelectedNodeId = useuiStore((s) => s.setSelectedNodeId);
-  const setInspectorOpen = useuiStore((s) => s.setInspectorOpen);
+      const { nodes, edges, onNodesChange, onEdgesChange, onConnect } = useGraphStore();
 
-    const initialNodes = useMemo<Node[]>(() => [
-        { id: 'n1', position: { x: 0, y: 0 }, data: { label: 'Node 1' } },
-        { id: 'n2', position: { x: 0, y: 100 }, data: { label: 'Node 2' } },
-    ], [])
-    const initialEdges = useMemo<Edge[]>(() => [{ id: 'n1-n2', source: 'n1', target: 'n2' }], [])
-    const [nodes, setNodes] = useState<Node[]>(initialNodes);
-    const [edges, setEdges] = useState<Edge[]>(initialEdges);
+    const setSelectedNodeId = useuiStore((s) => s.setSelectedNodeId);
+    const setInspectorOpen = useuiStore((s) => s.setInspectorOpen);
+      const selectedNodeId = useuiStore((s) => s.selectedNodeId);
 
-    const onNodesChange = useCallback(
-        (changes: NodeChange[]) => setNodes((nodesSnapshot) => applyNodeChanges(changes, nodesSnapshot)),
-        [],
-    );
-    const onEdgesChange = useCallback(
-        (changes: EdgeChange[]) => setEdges((edgesSnapshot) => applyEdgeChanges(changes, edgesSnapshot)),
-        [],
-    );
-    const onConnect = useCallback(
-        (params: Connection) => setEdges((edgesSnapshot) => addEdge(params, edgesSnapshot)),
-        [],
-    );
+    const decoratedNodes = useMemo(
+    () =>
+      nodes.map((n) =>
+        n.id === selectedNodeId
+          ? { ...n, style: { ...n.style, outline: "2px solid currentColor" } }
+          : { ...n, style: { ...n.style, outline: undefined } }
+      ),
+    [nodes, selectedNodeId]
+  );
 
     const onNodeClick = useCallback(
-    (_: React.MouseEvent, node: Node) => {
-      setSelectedNodeId(node.id);
-      setInspectorOpen(true); // desktop does nothing; mobile opens drawer
-    },
-    [setSelectedNodeId, setInspectorOpen]
-  );
+        (_: React.MouseEvent, node: Node) => {
+            setSelectedNodeId(node.id);
+            setInspectorOpen(true); // desktop does nothing; mobile opens drawer
+        },
+        [setSelectedNodeId, setInspectorOpen]
+    );
+      const onPaneClick = useCallback(() => {
+    setSelectedNodeId(null);
+    // optional: close drawer when cleared 
+    setInspectorOpen(false);
+  }, [setSelectedNodeId, setInspectorOpen]);
     return (
         <div className='w-full h-full'>
             <ReactFlow
-                nodes={nodes}
+                nodes={decoratedNodes}
                 edges={edges}
                 onNodesChange={onNodesChange}
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}
                 onNodeClick={onNodeClick}
+                onPaneClick={onPaneClick}
                 fitView
             >
                 <MiniMap nodeStrokeWidth={3} zoomable pannable />
