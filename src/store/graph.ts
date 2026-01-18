@@ -20,9 +20,9 @@ type GraphState = {
 };
 
 const initialNodes: Node[] = [
-    { id: "node-1", position: { x: 120, y: 120 }, data: { label: "Auth Service" } },
-    { id: "node-2", position: { x: 420, y: 220 }, data: { label: "Payments Service" } },
-    { id: "node-3", position: { x: 120, y: 340 }, data: { label: "Notifications" } },
+    { id: "node-1",type: "service", position: { x: 120, y: 120 }, data: { label: "Auth Service" ,serviceType: "api" } },
+    { id: "node-2",type: "service", position: { x: 420, y: 220 }, data: { label: "Payments Service" , serviceType: "api"} },
+    { id: "node-3",type: "service", position: { x: 120, y: 340 }, data: { label: "Notifications", serviceType: "api" } },
 ];
 
 const initialEdges: Edge[] = [

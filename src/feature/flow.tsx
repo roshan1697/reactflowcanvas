@@ -4,6 +4,7 @@ import type { Connection, EdgeChange, NodeChange, Node, Edge } from '@xyflow/rea
 import '@xyflow/react/dist/style.css'
 import { useuiStore } from '@/store/ui';
 import { useGraphStore } from '@/store/graph';
+import ServiceNode from './node/servicenode';
 
 
 
@@ -36,6 +37,9 @@ const Flow = () => {
     // optional: close drawer when cleared 
     setInspectorOpen(false);
   }, [setSelectedNodeId, setInspectorOpen]);
+
+  const nodeTypes = {service:ServiceNode}
+
     return (
         <div className='w-full h-full'>
             <ReactFlow
@@ -47,6 +51,7 @@ const Flow = () => {
                 onNodeClick={onNodeClick}
                 onPaneClick={onPaneClick}
                 fitView
+                nodeTypes={nodeTypes}
             >
                 <MiniMap nodeStrokeWidth={3} zoomable pannable />
                 <Background />

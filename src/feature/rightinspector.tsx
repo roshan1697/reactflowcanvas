@@ -1,3 +1,4 @@
+import type { ServiceNodeData } from "@/lib/type";
 import { useGraphStore } from "@/store/graph";
 import { useuiStore } from "@/store/ui"
 import { useMemo } from "react";
@@ -35,7 +36,7 @@ const RightInspector = () => {
                             <div className="text-xs text-muted-foreground">Label</div>
                             <input
                                 className="w-full rounded-md border bg-background px-3 py-2 text-sm"
-                                value={(selectedNode.data as any)?.label ?? ""}
+                                value={(selectedNode.data as ServiceNodeData)?.label ?? ""}
                                 onChange={(e) => updateNodeLabel(selectedNode.id, e.target.value)}
                             />
                         </div>
