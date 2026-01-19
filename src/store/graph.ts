@@ -17,6 +17,7 @@ type GraphState = {
     onConnect: (connection: Connection) => void;
 
     updateNodeLabel: (nodeId: string, label: string) => void;
+    setGraph: (nodes: Node[], edges: Edge[]) => void;
 };
 
 const initialNodes: Node[] = [
@@ -41,6 +42,7 @@ export const useGraphStore = create<GraphState>((set, get) => (
 
         updateNodeLabel: (nodeId, label) => set({
             nodes: get().nodes.map((n) => n.id === nodeId ? { ...n, data: { ...n, label } } : n)
-        })
+        }),
+        setGraph: (nodes, edges) => set({ nodes, edges })
     }
 ))

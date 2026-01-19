@@ -1,20 +1,29 @@
+import { listApps } from "@/api/mock";
 import { useuiStore } from "../store/ui";
+import { useQuery } from "@tanstack/react-query";
 
-const APPS = Array.from({ length: 6 }).map((_, i) => ({
-    id: `app-${i + 1}`,
-    name: `App ${i + 1}`,
-}));
+
+
+
+
+
 const LeftRail = () => {
     const selectedAppId = useuiStore((s) => s.selectedAppId);
     const setSelectedAppId = useuiStore((s) => s.setSelectedAppId);
+    const { data, isLoading, isError } = useQuery({
+        queryKey: ["apps"],
+        queryFn: listApps,
+    });
     return (
         <aside className="border-r min-h-0 flex flex-col">
             <div className="p-3 border-b font-medium">Apps</div>
 
             <div className="p-3 overflow-auto min-h-0 space-y-2">
-                {APPS.map((app) => {
-                    const active = app.id === selectedAppId;
+                {isLoading && <div className="text-sm text-muted-foreground">Loading…</div>}
+                {isError && <div className="text-sm text-destructive">Failed to load apps</div>}
 
+                {data?.map((app) => {
+                    const active = app.id === selectedAppId;
                     return (
                         <button
                             key={app.id}

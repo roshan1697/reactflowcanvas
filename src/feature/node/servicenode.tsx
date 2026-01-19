@@ -1,7 +1,8 @@
 import { memo } from "react"
-import { Handle, Position, NodeToolbar, type NodeProps } from "@xyflow/react"
-import {type  ServiceNodeData } from "@/lib/type"
-const ServiceNode = ({ data, selected }: NodeProps<ServiceNodeData>) => {
+import { Handle, Position, NodeToolbar } from "@xyflow/react"
+import type { Node } from "@xyflow/react"
+import type {  ServiceNodeData } from "@/lib/type"
+const ServiceNode = ({ data, selected }: Node<ServiceNodeData>) => {
     return (
         <div className="rounded-xl border bg-background px-3 py-2 shadow-sm min-w-[180px]">
             <NodeToolbar isVisible={selected} position={Position.Top}>

@@ -4,6 +4,7 @@ import TopBar from "../components/topbar"
 import { useuiStore } from "@/store/ui"
 import Flow from "@/feature/flow"
 import { Sidebar, SidebarContent, SidebarGroup,  SidebarProvider } from "@/components/ui/sidebar"
+import FlowLoader from "@/components/flowloader"
 
 
 const AppShell = () => {
@@ -28,7 +29,7 @@ const AppShell = () => {
 
                     <main className="min-h-0 relative h-full overflow-hidden">
 
-                        <Flow />
+                        <FlowLoader />
                     </main>
 
 
