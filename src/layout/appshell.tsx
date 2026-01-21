@@ -2,7 +2,6 @@ import RightInspector from "@/feature/rightinspector"
 import LeftRail from "../components/leftrail"
 import TopBar from "../components/topbar"
 import { useuiStore } from "@/store/ui"
-import Flow from "@/feature/flow"
 import { Sidebar, SidebarContent, SidebarGroup,  SidebarProvider } from "@/components/ui/sidebar"
 import FlowLoader from "@/components/flowloader"
 

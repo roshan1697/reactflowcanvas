@@ -1,4 +1,5 @@
-import type { AppItem, GraphResponse } from "@/lib/type";
+import type { AppItem, GraphResponse, ServiceNodeData } from "@/lib/type";
+import type { Node } from "@xyflow/react";
 
 const apps: AppItem[] = [
     { id: "app-1", name: "Payments Stack" },
@@ -24,12 +25,55 @@ const graphs: Record<string, GraphResponse> = {
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-export async function listApps(): Promise<AppItem[]> {
+export const listApps = async (): Promise<AppItem[]> => {
     await sleep(400);
     return apps;
 }
 
-export async function getGraph(appId: string): Promise<GraphResponse> {
+export const getGraph = async (appId: string): Promise<GraphResponse> => {
     await sleep(500);
     return graphs[appId] ?? { nodes: [], edges: [] };
+}
+
+export const updateNode = async (
+    appId: string,
+    nodeId: string,
+    patch: Partial<ServiceNodeData>
+): Promise<GraphResponse> => {
+    await sleep(400);
+
+    const graph = graphs[appId] ?? { nodes: [], edges: [] };
+
+    graphs[appId] = {
+        ...graph,
+        nodes: graph.nodes.map((n) =>
+            n.id === nodeId ? { ...n, data: { ...(n.data as any), ...patch } } : n
+        ),
+    };
+
+    return graphs[appId];
+}
+
+export const  createNode = async(appId: string, node: Node<ServiceNodeData>): Promise<GraphResponse> => {
+    await sleep(400);
+    const graph = graphs[appId] ?? { nodes: [], edges: [] };
+
+    graphs[appId] = {
+        ...graph,
+        nodes: [...graph.nodes, node],
+    };
+
+    return graphs[appId];
+}
+
+export const  deleteNode = async(appId: string, nodeId: string): Promise<GraphResponse> => {
+    await sleep(400);
+    const graph = graphs[appId] ?? { nodes: [], edges: [] };
+
+    graphs[appId] = {
+        nodes: graph.nodes.filter((n) => n.id !== nodeId),
+        edges: graph.edges.filter((e) => e.source !== nodeId && e.target !== nodeId),
+    };
+
+    return graphs[appId];
 }

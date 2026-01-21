@@ -3,7 +3,7 @@ import Flow from '@/feature/flow';
 import { useGraphStore } from '@/store/graph';
 import { useuiStore } from '@/store/ui';
 import { useQuery } from '@tanstack/react-query';
-import React, { useEffect } from 'react'
+import   { useEffect } from 'react'
 
 const FlowLoader = () => {
     const selectedAppId = useuiStore((s) => s.selectedAppId)
